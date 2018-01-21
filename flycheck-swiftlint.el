@@ -76,7 +76,7 @@
   "Automatically fix Swiftlint errors."
   (interactive)
   (if (not (executable-find "swiftlint"))
-      (user-error "swiftlint not found!")
+      (user-error "Swiftlint not found!")
     (when-let* ((default-directory
                   (flycheck-swiftlint--find-swiftlint-directory)))
       (compile "swiftlint autocorrect"))))
