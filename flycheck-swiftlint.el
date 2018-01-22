@@ -37,12 +37,15 @@
 
 ;; Compatibility
 (eval-and-compile
-  (when (version< emacs-version "26")
-    (with-no-warnings
-      (defalias 'if-let* #'if-let)
-      (defalias 'when-let* #'when-let)
-      (function-put #'if-let* 'lisp-indent-function 2)
-      (function-put #'when-let* 'lisp-indent-function 1))))
+  (with-no-warnings
+    (if (version< emacs-version "26")
+        (progn
+          (defalias 'flycheck-swiftlint-if-let* #'if-let)
+          (defalias 'flycheck-swiftlint-when-let* #'when-let)
+          (function-put #'flycheck-swiftlint-if-let* 'lisp-indent-function 2)
+          (function-put #'flycheck-swiftlint-when-let* 'lisp-indent-function 1))
+      (defalias 'flycheck-swiftlint-if-let* #'if-let*)
+      (defalias 'flycheck-swiftlint-when-let* #'when-let*))))
 
 ;;; Flycheck
 
@@ -77,8 +80,9 @@
   (interactive)
   (if (not (executable-find "swiftlint"))
       (user-error "Swiftlint not found!")
-    (when-let* ((default-directory
-                  (flycheck-swiftlint--find-swiftlint-directory)))
+    (flycheck-swiftlint-when-let*
+        ((default-directory
+           (flycheck-swiftlint--find-swiftlint-directory)))
       (compile "swiftlint autocorrect"))))
 
 (defun flycheck-swiftlint--find-swiftlint-directory ()
@@ -89,8 +93,8 @@
 
 (defun flycheck-swiftlint--find-xcodeproj-directory (&optional _checker)
   "Return directory containing .xcodeproj file or nil if file is not found."
-  (when-let* ((xcode-project-path
-               (flycheck-swiftlint--project-find-xcodeproj buffer-file-name)))
+  (flycheck-swiftlint-when-let* ((xcode-project-path
+                                  (flycheck-swiftlint--project-find-xcodeproj buffer-file-name)))
     (file-name-directory xcode-project-path)))
 
 (defun flycheck-swiftlint--project-find-xcodeproj (directory-or-file)
