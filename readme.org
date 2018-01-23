@@ -1,16 +1,13 @@
 #+TITLE: Flycheck Swiftlint
 
+[[https://melpa.org/#/flycheck-swiftlint][file:https://melpa.org/packages/flycheck-swiftlint-badge.svg]]
+
 * flycheck-swiftlint
   Flycheck extension for Swiftlint.
 * Install
-  This isn't on melpa yet.
-
-  Clone it somewhere like "~/.emacs.d/fork/flycheck-swiftlint".
-
   #+begin_src emacs-lisp :tangle yes
 (use-package flycheck-swiftlint
-  :load-path "~/.emacs.d/fork/flycheck-swiftlint"
-  :ensure nil
+  :ensure t
   :config
   (with-eval-after-load 'flycheck
     (flycheck-swiftlint-setup)))
