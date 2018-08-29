@@ -98,6 +98,7 @@
 (defun flycheck-swiftlint--find-swiftlint-directory ()
   "Return directory for use with Swiftlint."
   (or
+   (locate-dominating-file buffer-file-name ".swiftlint.yml")
    (locate-dominating-file buffer-file-name ".git")
    (flycheck-swiftlint--find-xcodeproj-directory)))
 
